@@ -22,6 +22,9 @@ class Room
     #[ORM\Column(length: 50)]
     private ?string $roomType = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[ORM\Column]
     private ?int $totalCapacity = null;
 
@@ -275,6 +278,24 @@ class Room
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     * @return Room
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
         return $this;
     }
 }

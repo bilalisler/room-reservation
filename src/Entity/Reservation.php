@@ -2,42 +2,104 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+/**
+ * @Table(name="reservation")
+ * @Entity(repositoryClass="App\Repository\ReservationRepository")
+ */
 class Reservation
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups({"list"})
+     */
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $users = null;
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist"})
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
+     *
+     * @Groups({"list"})
+     */
+    private ?Payment $payment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reservations")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *
+     * @Groups({"list"})
+     */
+    private ?User $user = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="reservations")
+     * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
+     *
+     * @Groups({"list"})
+     */
     private ?Room $room = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $startDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
+    private ?int $status = 0;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
+    private ?int $guestCount = null;
+
+    /**
+     * @ORM\Column(type="float", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?float $price = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="float", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?float $total = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $updatedAt = null;
 
     public function getId(): ?int
@@ -45,14 +107,14 @@ class Reservation
         return $this->id;
     }
 
-    public function getUsers(): ?User
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?User $users): self
+    public function setUser(?User $user): self
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
@@ -138,6 +200,60 @@ class Reservation
     {
         $this->updatedAt = $updatedAt;
 
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGuestCount(): ?int
+    {
+        return $this->guestCount;
+    }
+
+    /**
+     * @param int|null $guestCount
+     * @return Reservation
+     */
+    public function setGuestCount(?int $guestCount): Reservation
+    {
+        $this->guestCount = $guestCount;
+        return $this;
+    }
+
+    /**
+     * @return Payment|null
+     */
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param Payment|null $payment
+     * @return Reservation
+     */
+    public function setPayment(?Payment $payment): Reservation
+    {
+        $this->payment = $payment;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int|null $status
+     * @return Reservation
+     */
+    public function setStatus(?int $status): Reservation
+    {
+        $this->status = $status;
         return $this;
     }
 }

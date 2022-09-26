@@ -2,64 +2,133 @@
 
 namespace App\Entity;
 
-use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: RoomRepository::class)]
+/**
+ * @Table(name="room")
+ * @Entity(repositoryClass="App\Repository\RoomRepository")
+ */
 class Room
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @var int
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups({"list"})
+     */
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @ORM\Column(type="string",length=50, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $homeType = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string",length=255, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $title = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?int $totalCapacity = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?int $totalBedrooms = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?int $totalBathrooms = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $address = null;
 
-    #[ORM\Column(type: 'text')]
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $description = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="float", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?float $price = null;
 
-    #[ORM\Column(length: 3)]
+    /**
+     * @ORM\Column(type="string", length=3, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $currency = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $latitude = null;
 
-    #[ORM\Column]
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $longitude = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Reservation::class)]
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="room")
+     *
+     * @Groups({"list"})
+     */
     private Collection $reservations;
 
-    #[ORM\ManyToMany(targetEntity: RoomProperty::class)]
-    #[ORM\JoinTable(name: 'rooms_properties')]
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\RoomProperty")
+     * @ORM\JoinTable(name="rooms_properties")
+     *
+     * @Groups({"list"})
+     */
     private Collection $roomProperties;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()

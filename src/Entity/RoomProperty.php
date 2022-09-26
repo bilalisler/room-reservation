@@ -6,22 +6,46 @@ use App\Repository\RoomPropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: RoomPropertyRepository::class)]
+/**
+ * @Table(name="room_property")
+ * @Entity(repositoryClass="App\Repository\RoomPropertyRepository")
+ */
 class RoomProperty
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @var int
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups({"list"})
+     */
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'roomProperties')]
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\RoomProperty", inversedBy="roomProperties")
+     * @ORM\JoinColumn(name="parent_id",referencedColumnName="id")
+     *
+     * @Groups({"list"})
+     */
     private ?self $parent = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RoomProperty", mappedBy="parent")
+     *
+     * @Groups({"list"})
+     */
     private Collection $roomProperties;
 
     public function __construct()

@@ -2,37 +2,67 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+/**
+ * @Table(name="user")
+ * @Entity(repositoryClass="App\Repository\UserRepository")
+ */
 class User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @var int
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Groups({"list"})
+     */
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $fullName = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $email = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     *
+     * @Groups({"list"})
+     */
     private ?string $phoneNumber = null;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Reservation::class)]
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="user")
+     */
     private Collection $reservations;
 
     public function __construct()

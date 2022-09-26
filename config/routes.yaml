@@ -6,3 +6,4 @@ api_v1:
     resource: ../src/Controller/Api/v1
     type: attribute
     prefix: '/api/v1'
+    name_prefix: 'v1_'

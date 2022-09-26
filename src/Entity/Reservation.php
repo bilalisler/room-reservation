@@ -96,7 +96,7 @@ class Reservation
     private ?\DateTimeInterface $createdAt = null;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      *
      * @Groups({"list"})
      */

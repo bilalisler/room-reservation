@@ -47,13 +47,6 @@ class User
     private ?\DateTimeInterface $createdAt = null;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
-     *
-     * @Groups({"list"})
-     */
-    private ?\DateTimeInterface $updatedAt = null;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      *
      * @Groups({"list"})
@@ -126,24 +119,6 @@ class User
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTimeInterface|null $updatedAt
-     * @return User
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
         return $this;
     }
 

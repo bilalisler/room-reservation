@@ -61,6 +61,29 @@ class Room
     private ?int $totalBathrooms = null;
 
     /**
+     * Desc: Minimum konaklama gün sayısı
+     *
+     * @ORM\Column(type="smallint", nullable=false)
+     *
+     * @Groups({"list"})
+     */
+    private ?int $minStayDayCount = 1;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=false)
+     *
+     * @Groups({"list"})
+     */
+    private ?string $country = null;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     *
+     * @Groups({"list"})
+     */
+    private ?string $city = null;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      *
      * @Groups({"list"})
@@ -104,8 +127,6 @@ class Room
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="room")
-     *
-     * @Groups({"list"})
      */
     private Collection $reservations;
 
@@ -125,7 +146,7 @@ class Room
     private ?\DateTimeInterface $createdAt = null;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      *
      * @Groups({"list"})
      */
@@ -373,4 +394,60 @@ class Room
         $this->currency = $currency;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     * @return Room
+     */
+    public function setCountry(?string $country): Room
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     * @return Room
+     */
+    public function setCity(?string $city): Room
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMinStayDayCount(): ?int
+    {
+        return $this->minStayDayCount;
+    }
+
+    /**
+     * @param int|null $minStayDayCount
+     * @return Room
+     */
+    public function setMinStayDayCount(?int $minStayDayCount): Room
+    {
+        $this->minStayDayCount = $minStayDayCount;
+        return $this;
+    }
+
+
 }

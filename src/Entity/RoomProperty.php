@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @Table(name="room_property")
@@ -43,8 +44,6 @@ class RoomProperty
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RoomProperty", mappedBy="parent")
-     *
-     * @Groups({"list"})
      */
     private Collection $roomProperties;
 

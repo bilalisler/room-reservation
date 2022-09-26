@@ -43,6 +43,9 @@ class Room
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\Column(length: 3)]
+    private ?string $currency = null;
+
     #[ORM\Column]
     private ?string $latitude = null;
 
@@ -296,6 +299,24 @@ class Room
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string|null $currency
+     * @return Room
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
         return $this;
     }
 }

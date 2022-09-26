@@ -19,9 +19,6 @@ class Room
     #[ORM\Column(length: 50)]
     private ?string $homeType = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $roomType = null;
-
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -83,18 +80,6 @@ class Room
     public function setHomeType(string $homeType): self
     {
         $this->homeType = $homeType;
-
-        return $this;
-    }
-
-    public function getRoomType(): ?string
-    {
-        return $this->roomType;
-    }
-
-    public function setRoomType(string $roomType): self
-    {
-        $this->roomType = $roomType;
 
         return $this;
     }

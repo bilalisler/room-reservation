@@ -34,32 +34,30 @@ class Room
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column]
-    private ?bool $hasTv = null;
-
-    #[ORM\Column]
-    private ?bool $hasKitchen = null;
-
-    #[ORM\Column]
-    private ?bool $hasAirCondition = null;
-
-    #[ORM\Column]
-    private ?bool $hasHeating = null;
-
-    #[ORM\Column]
-    private ?bool $hasInternet = null;
+    #[ORM\Column(type: 'text')]
+    private ?string $description = null;
 
     #[ORM\Column]
     private ?float $price = null;
+
+    #[ORM\Column]
+    private ?string $latitude = null;
+
+    #[ORM\Column]
+    private ?string $longitude = null;
+
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Reservation::class)]
+    private Collection $reservations;
+
+    #[ORM\ManyToMany(targetEntity: RoomProperty::class)]
+    #[ORM\JoinTable(name: 'rooms_properties')]
+    private Collection $roomProperties;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
-
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Reservation::class)]
-    private Collection $reservations;
 
     public function __construct()
     {
@@ -143,72 +141,6 @@ class Room
         return $this;
     }
 
-    public function hasTv(): ?bool
-    {
-        return $this->hasTv;
-    }
-
-    public function setHasTv(bool $hasTv): self
-    {
-        $this->hasTv = $hasTv;
-
-        return $this;
-    }
-
-    public function hasKitchen(): ?bool
-    {
-        return $this->hasKitchen;
-    }
-
-    public function setHasKitchen(bool $hasKitchen): self
-    {
-        $this->hasKitchen = $hasKitchen;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getHasAirCondition()
-    {
-        return $this->hasAirCondition;
-    }
-
-    /**
-     * @param bool|null $hasAirCondition
-     * @return Room
-     */
-    public function setHasAirCondition($hasAirCondition)
-    {
-        $this->hasAirCondition = $hasAirCondition;
-        return $this;
-    }
-
-    public function hasHeating(): ?bool
-    {
-        return $this->hasHeating;
-    }
-
-    public function setHasHeating(bool $hasHeating): self
-    {
-        $this->hasHeating = $hasHeating;
-
-        return $this;
-    }
-
-    public function hasInternet(): ?bool
-    {
-        return $this->hasInternet;
-    }
-
-    public function setHasInternet(bool $hasInternet): self
-    {
-        $this->hasInternet = $hasInternet;
-
-        return $this;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -271,6 +203,78 @@ class Room
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     * @return Room
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRoomProperties()
+    {
+        return $this->roomProperties;
+    }
+
+    /**
+     * @param Collection $roomProperties
+     * @return Room
+     */
+    public function setRoomProperties($roomProperties)
+    {
+        $this->roomProperties = $roomProperties;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string|null $latitude
+     * @return Room
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string|null $longitude
+     * @return Room
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
         return $this;
     }
 }

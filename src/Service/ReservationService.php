@@ -3,16 +3,23 @@
 namespace App\Service;
 
 use App\Entity\Reservation;
+use App\Exception\FormErrorException;
+use App\Form\ReservationCreateType;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class ReservationService
 {
     private ReservationRepository $reservationRepository;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private FormFactoryInterface $formFactory)
     {
         $this->reservationRepository = $entityManager->getRepository(Reservation::class);
+    }
+
+    public function validateAndSerialize(){
+
     }
 
     public function allReservations()
@@ -25,8 +32,28 @@ class ReservationService
         return $this->reservationRepository->find($id);
     }
 
-    public function createReservation(Reservation $reservation)
+    /**
+     * @param array $data
+     * @return Reservation
+     * @throws FormErrorException
+     */
+    public function createReservation(array $data): Reservation
     {
+        // deserialize and validate the request data
+        $reservation = new Reservation();
+        $form = $this->formFactory->create(ReservationCreateType::class, $reservation);
+        $form->submit($data);
+
+        if(!$form->isValid()){
+            throw new FormErrorException($form->getErrors());
+        }
+
+        // todo: pricing will move another service or method
+        $reservation->setPrice($reservation->getRoom()->getPrice());
+        $reservation->setTotal($reservation->getRoom()->getPrice() * $reservation->getGuestCount());
+
         $this->reservationRepository->save($reservation, true);
+
+        return $reservation;
     }
 }

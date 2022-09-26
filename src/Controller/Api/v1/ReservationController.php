@@ -3,38 +3,47 @@
 namespace App\Controller\Api\v1;
 
 use App\Controller\BaseController;
-use App\Entity\Reservation;
-use App\Exception\FormErrorException;
-use App\Form\ReservationCreateType;
+use App\Elasticsearch\ReservationElasticService;
+use App\Message\CreateReservationMessage;
 use App\Service\ReservationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/reservation')]
 class ReservationController extends BaseController
 {
-    public function __construct(private ReservationService $reservationService){}
+    public function __construct(private ReservationService $reservationService,private ReservationElasticService $elasticService){}
 
     #[Route('/list', name: 'list_reservations')]
     public function listReservations(): JsonResponse
     {
-        $reservations = $this->reservationService->allReservations();
+        $reservations = $this->elasticService->allReservations();
         return $this->success($reservations,'Success',200,[],['groups' => ['list']]);
     }
 
-    #[Route('/create', name: 'create_reservation')]
-    public function createReservation(Request $request): JsonResponse
+    #[Route('/calculate', name: 'create_reservation')]
+    public function calculate(Request $request,MessageBusInterface $messageBus): JsonResponse
     {
         $data =  json_decode($request->getContent(),true);
+        $reservation = $this->reservationService->createReservation($data);
 
-        $reservation = new Reservation();
-         $form = $this->createForm(ReservationCreateType::class, $reservation);
-        $form->submit($data);
+        $messageBus->dispatch(new CreateReservationMessage($reservation));
 
-        if(!$form->isValid()){
-            throw new FormErrorException($form->getErrors());
-        }
+        // todo: calculate price and total then save reservation then dispatch an event
+
+        return $this->success([],'reservation was created',200);
+    }
+
+    #[Route('/create', name: 'create_reservation')]
+    public function createReservation(Request $request,MessageBusInterface $messageBus): JsonResponse
+    {
+        $data =  json_decode($request->getContent(),true);
+        $reservation = $this->reservationService->createReservation($data);
+
+        $messageBus->dispatch(new CreateReservationMessage($reservation));
 
         // todo: calculate price and total then save reservation then dispatch an event
 

@@ -1,0 +1,115 @@
+version: '3'
+services:
+  #PHP Service
+  docker_service_php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php81
+    container_name: docker_service_php
+    tty: true
+    environment:
+      SERVICE_NAME: docker_service_php
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ../:/var/www:delegated
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini:delegated
+    networks:
+      - docker_network_bridge
+
+  #Composer Service, it is to create vendor folder for project
+  docker_service_composer:
+    image: composer/composer:latest
+    command: install
+    volumes:
+      - ../:/app
+
+  #Nginx Service
+  docker_service_webserver:
+    image: nginx:alpine
+    container_name: docker_service_webserver
+    tty: true
+    ports:
+      - "8087:80"
+      - "8088:443"
+    volumes:
+      - ../:/var/www:delegated
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:delegated
+      - ./nginx/certs:/etc/nginx/certs:delegated
+    networks:
+      - docker_network_bridge
+
+  #Redis Service
+  docker_service_redis:
+    image: redis:alpine
+    container_name: docker_service_redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6380:6379'
+    volumes:
+      - ./redis:/data
+    networks:
+      - docker_network_bridge
+
+  #MySQL Service
+  docker_service_database:
+    image: mysql:5.7
+    container_name: docker_service_database
+    tty: true
+    ports:
+      - "33078:3306"
+    environment:
+      MYSQL_DATABASE: missafir_api_db
+      MYSQL_ROOT_PASSWORD: test
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql_data:/var/lib/mysql/:delegated
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - docker_network_bridge
+
+  #Elasticsearch Service
+  docker_service_elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    container_name: docker_service_elasticsearch
+    environment:
+      - node.name=docker_service_elasticsearch
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=docker_service_elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./es01:/usr/share/elasticsearch/data
+    networks:
+      - docker_network_bridge
+
+  #Kibana Service
+  docker_service_kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.4
+    container_name: docker_service_kibana
+    environment:
+      ELASTICSEARCH_URL: http://docker_service_elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://docker_service_elasticsearch:9200"]'
+    ports:
+      - "5601:5601"
+    networks:
+      - docker_network_bridge
+
+#Docker Networks
+networks:
+  docker_network_bridge:
+    driver: bridge
+
+#Volumes
+volumes:
+  mysql_data:
+    driver: local

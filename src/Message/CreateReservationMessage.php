@@ -2,15 +2,17 @@
 
 namespace App\Message;
 
+use App\Entity\Reservation;
+
 class CreateReservationMessage
 {
-    public function __construct(private int $reservationId){}
+    public function __construct(private Reservation $reservation){}
 
     /**
-     * @return int
+     * @return Reservation
      */
-    public function getReservationId(): int
+    public function getReservation(): Reservation
     {
-        return $this->reservationId;
+        return $this->reservation;
     }
 }

@@ -1,15 +1,17 @@
 <?php
 namespace App\Message;
 
+use App\Entity\Room;
+
 class CreateRoomMessage
 {
-    public function __construct(private int $roomId){}
+    public function __construct(private Room $room){}
 
     /**
-     * @return int
+     * @return Room
      */
-    public function getRoomId(): int
+    public function getRoom(): Room
     {
-        return $this->roomId;
+        return $this->room;
     }
 }

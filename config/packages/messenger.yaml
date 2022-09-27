@@ -4,12 +4,13 @@ framework:
         # failure_transport: failed
 
         transports:
-            async: "%env(MESSENGER_TRANSPORT_DSN)%"
+            reservation_async: "%env(MESSENGER_TRANSPORT_DSN)%"
+            room_async: "%env(MESSENGER_TRANSPORT_DSN)%"
             # https://symfony.com/doc/current/messenger.html#transport-configuration
 
         routing:
-            'App\Message\CreateReservationMessage': async
-            'App\Message\CreateRoomMessage': async
+            'App\Message\CreateReservationMessage': reservation_async
+            'App\Message\CreateRoomMessage': room_async
 
 # when@test:
 #    framework:

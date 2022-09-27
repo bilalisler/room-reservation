@@ -9,6 +9,7 @@
 4. run project `https://localhost:8088`
 
 ***
+> You can find postman collections in root directory name with `postmanCollections`
 
 ## System Design Architecture
 ![Alt text](./system_architecture.png?raw=true)

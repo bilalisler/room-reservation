@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "9347eff8-5fdd-4b60-9791-1b7c324719e0",
+		"name": "missafir-reservation-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1190522"
+	},
+	"item": [
+		{
+			"name": "create room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"homeType\": \"Daire\",\n    \"title\": \"Çengelköyde Muhteşem Boğaz Manzaralı, Balkonlu, Teraslı ve Arka Bahçeli Olağanüstü Villa\",\n    \"totalCapacity\": 32,\n    \"totalBedrooms\": 2,\n    \"totalBathrooms\": 1,\n    \"minStayDayCount\": 1,\n    \"country\": \"Türkiye\",\n    \"city\": \"İstanbul\",\n    \"address\": \"Üsküdar, İstanbul\",\n    \"description\": \"Kendinizi İstanbulun rengarenk ruhuyla sarıp sarmalamak istiyorsanız Çengelköy sizi bekliyor. Bu muhteşem semtin kalbinde büyüleyici bir Boğaz manzarasına sahip olağanüstü güzellikteki tripleks villamız Peitho, sizi tanrılara yakışır bir yolculuğa davet ediyor. Unutulmaz bir İstanbul deneyimi için şimdi rezervasyon yapın!\",\n    \"price\": 3309,\n    \"currency\": \"TRY\",\n    \"latitude\": \"41.04751\",\n    \"longitude\": \"29.055903\",\n    \"roomProperties\": [\n        45,\n        46\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8088/api/v1/room/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"room",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"country\": \"Türkiye\",\n    \"city\": \"İstanbul\",\n    \"startDate\": \"2022-01-01\",\n    \"endDate\": \"2022-01-02\",\n    \"guestCount\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8088/api/v1/search/room",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"search",
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list reservations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8088/api/v1/reservation/list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"reservation",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create reservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payment\": {\n        \"cardNumber\": \"4716841611983226\",\n        \"cardOwner\": \"test test\",\n        \"cardCvc\": 621,\n        \"cardExpiry\": \"07/28\"\n    },\n    \"price\": 100,\n    \"total\": 1000,\n    \"user\": 1,\n    \"room\": 1,\n    \"startDate\": \"2022-09-26\",\n    \"endDate\": \"2022-09-29\",\n    \"guestCount\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8088/api/v1/reservation/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"reservation",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "detail room",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8088/api/v1/room/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"room",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete room",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8088/api/v1/room/delete/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"room",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8088/api/v1/room/list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"room",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete reservation",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8088/api/v1/reservation/delete/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"reservation",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

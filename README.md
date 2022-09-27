@@ -4,6 +4,7 @@
 1. run project: `$ docker-compose up -d`
 3. run schema update: `$ docker exec docker_service_php php bin/console doctrine:schema:update --force`
 3. run migrations: `$ docker exec docker_service_php php bin/console doctrine:migrations:migrate`
+3. run migrations: `$ docker exec docker_service_php php bin/console TransferDataFromMysqlToElastic`
 3. run migrations: `$ docker exec docker_service_php php bin/console messenger:consume -vv`
 4. run project `https://localhost:8088`
 

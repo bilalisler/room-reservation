@@ -18,15 +18,6 @@ class ReservationService
         $this->reservationRepository = $entityManager->getRepository(Reservation::class);
     }
 
-    public function validateAndSerialize(){
-
-    }
-
-    public function allReservations()
-    {
-        return $this->reservationRepository->findAll();
-    }
-
     public function getReservation($id)
     {
         return $this->reservationRepository->find($id);
@@ -47,10 +38,6 @@ class ReservationService
         if(!$form->isValid()){
             throw new FormErrorException($form->getErrors());
         }
-
-        // todo: pricing will move another service or method
-        $reservation->setPrice($reservation->getRoom()->getPrice());
-        $reservation->setTotal($reservation->getRoom()->getPrice() * $reservation->getGuestCount());
 
         $this->reservationRepository->save($reservation, true);
 

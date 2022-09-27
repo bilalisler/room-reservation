@@ -5,12 +5,12 @@ namespace App\Form;
 use App\Entity\Reservation;
 use App\Entity\Room;
 use App\Entity\User;
-use App\Validator\CheckUser;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -65,6 +65,20 @@ class ReservationCreateType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new NotBlank(['message' => 'GuestCount parameter can not be empty'])
+                ]
+            ])
+            ->add('price', NumberType::class, [
+                'error_bubbling' => true,
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Price parameter can not be empty'])
+                ]
+            ])
+            ->add('total', NumberType::class, [
+                'error_bubbling' => true,
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Total parameter can not be empty'])
                 ]
             ])
             ->add('payment', PaymentType::class, [

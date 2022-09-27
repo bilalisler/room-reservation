@@ -31,7 +31,7 @@ class ReservationController extends BaseController
         $data = json_decode($request->getContent(), true);
         $reservation = $this->reservationService->createReservation($data);
 
-        $messageBus->dispatch(new CreateReservationMessage($reservation));
+        $messageBus->dispatch(new CreateReservationMessage($reservation->getId()));
 
         return $this->success([], 'reservation was created', 200);
     }

@@ -38,7 +38,7 @@ class RoomController extends BaseController
         $data = json_decode($request->getContent(), true);
         $room = $this->roomService->createRoom($data);
 
-        $messageBus->dispatch(new CreateRoomMessage($room));
+        $messageBus->dispatch(new CreateRoomMessage($room->getId()));
         return $this->success([], 'Success', 200, [], ['groups' => ['list']]);
     }
 

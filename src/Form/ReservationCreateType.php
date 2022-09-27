@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -80,6 +81,9 @@ class ReservationCreateType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'Total parameter can not be empty'])
                 ]
+            ])
+            ->add('createdAt',HiddenType::class, [
+                'empty_data' => new \DateTime('now')
             ])
             ->add('payment', PaymentType::class, [
                 'error_bubbling' => true,

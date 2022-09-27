@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -120,6 +121,9 @@ class RoomCreateType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'longitude parameter can not be empty'])
                 ]
+            ])
+            ->add('createdAt',HiddenType::class, [
+                'empty_data' => new \DateTime('now')
             ])
             ->add('roomProperties', EntityType::class, [
                 'class' => RoomProperty::class,

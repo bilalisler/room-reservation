@@ -31,6 +31,13 @@ class RoomController extends BaseController
         return $this->success($rooms, 'Success', 200, [], ['groups' => ['list']]);
     }
 
+    #[Route('/{id}', name: 'detail_room', methods: ['GET'])]
+    public function detailRoom($id): JsonResponse
+    {
+        $room = $this->roomService->getRoom($id);
+        return $this->success($room, 'Success', 200, [], ['groups' => ['list']]);
+    }
+
     #[Route('/create', name: 'create_room', methods: ['POST'])]
     public function createRoom(Request $request, MessageBusInterface $messageBus): JsonResponse
     {
@@ -41,9 +48,15 @@ class RoomController extends BaseController
         return $this->success([], 'Success', 200, [], ['groups' => ['list']]);
     }
 
-    #[Route('/delete', name: 'delete_room', methods: ['DELETE'])]
-    public function deleteRoom(): JsonResponse
+    #[Route('/delete/{id}', name: 'delete_room', methods: ['DELETE'])]
+    public function deleteRoom($id): JsonResponse
     {
-        return $this->success([], 'Success', 200, [], ['groups' => ['list']]);
+        $room = $this->roomService->getRoom($id);
+        if (empty($room)) {
+            return $this->json(['message' => 'Room was not found', 'data' => []], 400);
+        }
+        $this->roomService->removeRoom($room);
+
+        return $this->success([], 'Success', 204, []);
     }
 }

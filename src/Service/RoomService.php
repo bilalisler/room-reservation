@@ -16,9 +16,14 @@ class RoomService
 {
     private RoomRepository $roomRepository;
 
-    public function __construct(private EntityManagerInterface $entityManager,private FormFactoryInterface $formFactory)
+    public function __construct(private EntityManagerInterface $entityManager, private FormFactoryInterface $formFactory)
     {
         $this->roomRepository = $entityManager->getRepository(Room::class);
+    }
+
+    public function removeRoom(Room $room)
+    {
+        $this->roomRepository->remove($room, true);
     }
 
     public function getRoom($id)
@@ -38,7 +43,7 @@ class RoomService
         $form = $this->formFactory->create(RoomCreateType::class, $room);
         $form->submit($data);
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             throw new FormErrorException($form->getErrors());
         }
 

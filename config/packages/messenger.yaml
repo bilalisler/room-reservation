@@ -6,14 +6,10 @@ framework:
         transports:
             async: "%env(MESSENGER_TRANSPORT_DSN)%"
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
 
         routing:
             'App\Message\CreateReservationMessage': async
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            'App\Message\CreateRoomMessage': async
 
 # when@test:
 #    framework:

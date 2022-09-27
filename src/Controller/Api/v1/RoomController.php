@@ -4,16 +4,10 @@ namespace App\Controller\Api\v1;
 
 use App\Controller\BaseController;
 use App\Elasticsearch\RoomElasticService;
-use App\Entity\Reservation;
-use App\Exception\FormErrorException;
-use App\Form\ReservationCreateType;
-use App\Message\CreateReservationMessage;
 use App\Message\CreateRoomMessage;
-use App\Service\ReservationService;
 use App\Service\RoomService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

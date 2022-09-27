@@ -18,6 +18,11 @@ class ReservationService
         $this->reservationRepository = $entityManager->getRepository(Reservation::class);
     }
 
+    public function removeReservation(Reservation $reservation)
+    {
+        $this->reservationRepository->remove($reservation, true);
+    }
+
     public function getReservation($id)
     {
         return $this->reservationRepository->find($id);

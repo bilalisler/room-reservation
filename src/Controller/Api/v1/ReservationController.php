@@ -36,9 +36,15 @@ class ReservationController extends BaseController
         return $this->success([], 'reservation was created', 200);
     }
 
-    #[Route('/delete', name: 'delete_reservation', methods: ['DELETE'])]
-    public function deleteReservation(): JsonResponse
+    #[Route('/delete/{id}', name: 'delete_reservation', methods: ['DELETE'])]
+    public function deleteReservation($id): JsonResponse
     {
-        return $this->success([], 'Success', 200, [], ['groups' => ['list']]);
+        $reservation = $this->reservationService->getReservation($id);
+        if (empty($reservation)) {
+            return $this->json(['message' => 'Reservation was not found', 'data' => []], 400);
+        }
+        $this->reservationService->removeReservation($reservation);
+
+        return $this->success([], 'Success', 204, []);
     }
 }

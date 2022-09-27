@@ -21,9 +21,10 @@ class CreateRoomMessageHandler implements MessageHandlerInterface
          */
         $room = $this->repository->find($message->getRoomId());
 
-        $data = $this->serializer->serialize($room, 'json');
+        $data = $this->serializer->serialize($room, 'json',['groups' => ['list']]);
         $data = json_decode($data, true);
 
+        $this->elasticService->createIndexAndMapping();
         $this->elasticService->save($data);
     }
 }

@@ -1,0 +1,99 @@
+properties:
+  startDate:
+    type: "date"
+    format: "dd.MM.yyyy"
+    ignore_malformed: true
+  endDate:
+    type: "date"
+    format: "dd.MM.yyyy"
+    ignore_malformed: true
+  status:
+    type: long
+  guestCount:
+    type: long
+  price:
+    type: long
+  total:
+    type: long
+  createdAt:
+    type: "date"
+    format: "dd.MM.yyyy"
+    ignore_malformed: true
+  updatedAt:
+    type: "date"
+    format: "dd.MM.yyyy"
+    ignore_malformed: true
+  payment:
+    properties:
+      id:
+        type: long
+      cardNumber:
+        type: "keyword"
+      cardOwner:
+        type: "keyword"
+      cardCvc:
+        type: long
+      cardExpiry:
+        type: "keyword"
+  user:
+    properties:
+      id:
+        type: long
+      name:
+        type: "keyword"
+      email:
+        type: "keyword"
+      phoneNumber:
+        type: "keyword"
+      cardExpiry:
+        type: "keyword"
+      createdAt:
+        type: "date"
+        format: "dd.MM.yyyy"
+        ignore_malformed: true
+  room:
+    properties:
+      address:
+        type: "keyword"
+      country:
+        type: "keyword"
+      currency:
+        type: "keyword"
+      createdAt:
+        type: "date"
+        format: "dd.MM.yyyy"
+        ignore_malformed: true
+      description:
+        type: "keyword"
+      homeType:
+        type: "keyword"
+      id:
+        type: long
+      latitude:
+        type: "keyword"
+      longitude:
+        type: "keyword"
+      minStayDayCount:
+        type: long
+      price:
+        type: long
+      title:
+        type: "keyword"
+      totalBathrooms:
+        type: long
+      totalBedrooms:
+        type: long
+      totalCapacity:
+        type: long
+      roomProperties:
+        properties:
+          id:
+            type: long
+          name:
+            type: "keyword"
+          parent:
+            properties:
+              id:
+                type: long
+              name:
+                type: "keyword"

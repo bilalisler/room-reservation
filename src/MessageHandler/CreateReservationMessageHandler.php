@@ -19,9 +19,10 @@ class CreateReservationMessageHandler implements MessageHandlerInterface
          */
         $reservation = $this->repository->find($message->getReservationId());
 
-        $data = $this->serializer->serialize($reservation,'json');
+        $data = $this->serializer->serialize($reservation,'json',['groups' => ['list']]);
         $data = json_decode($data,true);
 
+        $this->elasticService->createIndexAndMapping();
         $this->elasticService->save($data);
     }
 }

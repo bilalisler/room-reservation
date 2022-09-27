@@ -1,0 +1,45 @@
+properties:
+  address:
+    type: "keyword"
+  country:
+    type: "keyword"
+  currency:
+    type: "keyword"
+  createdAt:
+    type: "date"
+    format: "dd.MM.yyyy"
+    ignore_malformed: true
+  description:
+    type: "keyword"
+  homeType:
+    type: "keyword"
+  id:
+    type: long
+  latitude:
+    type: "keyword"
+  longitude:
+    type: "keyword"
+  minStayDayCount:
+    type: long
+  price:
+    type: long
+  title:
+    type: "keyword"
+  totalBathrooms:
+    type: long
+  totalBedrooms:
+    type: long
+  totalCapacity:
+    type: long
+  roomProperties:
+    properties:
+      id:
+        type: long
+      name:
+        type: "keyword"
+      parent:
+        properties:
+          id:
+            type: long
+          name:
+            type: "keyword"

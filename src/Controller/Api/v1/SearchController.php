@@ -3,10 +3,7 @@
 namespace App\Controller\Api\v1;
 
 use App\Controller\BaseController;
-use App\Elasticsearch\RoomElasticService;
-use App\Exception\FormErrorException;
-use App\Form\SearchRoomType;
-use App\Request\SearchRoomRequest;
+use App\Service\SearchService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,22 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/search')]
 class SearchController extends BaseController
 {
-    public function __construct(private RoomElasticService $elasticService){}
+    public function __construct(private SearchService $searchService)
+    {
+    }
 
     #[Route('/room', name: 'search_room')]
     public function index(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
-        $searchRequest = new SearchRoomRequest();
-        $form = $this->createForm(SearchRoomType::class,$searchRequest);
-        $form->submit($data);
-
-        if($form->isValid() === false){
-            throw new FormErrorException($form->getErrors());
-        }
-
-        $result = $this->elasticService->searchRoomRequest($searchRequest);
+        $result = $this->searchService->searchRoom($data);
 
         return $this->success($result);
     }

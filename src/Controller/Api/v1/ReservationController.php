@@ -45,6 +45,6 @@ class ReservationController extends BaseController
         }
         $this->reservationService->removeReservation($reservation);
 
-        return $this->success([], 'Success', 204, []);
+        return $this->success([], 'Success', 200, []);
     }
 }

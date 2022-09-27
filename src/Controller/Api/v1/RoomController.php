@@ -51,6 +51,6 @@ class RoomController extends BaseController
         }
         $this->roomService->removeRoom($room);
 
-        return $this->success([], 'Success', 204, []);
+        return $this->success([], 'Success', 200, []);
     }
 }

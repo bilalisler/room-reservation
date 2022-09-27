@@ -21,14 +21,13 @@ class RoomElasticService extends AbstractElasticService
 
     public function searchRoomRequest(SearchRoomRequest $request)
     {
-        $startDate = $request->getStartDate()->format('Y-m-d');
-        $endDate = $request->getEndDate()->format('Y-m-d');
         $guestCount = $request->getGuestCount();
         $country = $request->getCountry();
         $city = $request->getCity();
 
-        $query = json_decode('{"query":{"bool":{"must":[{"range":{"order_date":{"gte":"'.$startDate.'","lte":"'.$endDate.'"}}},{"term":{"guestCount":{"value":'.$guestCount.'}}},{"term":{"country":{"value":"'.$country.'"}}},{"term":{"city":{"value":"'.$city.'"}}}]}}}',true);
+        $minStayCount = $request->getStartDate()->diff($request->getEndDate())->days;
 
+        $query = json_decode('{"query":{"bool":{"must":[{"term":{"country":{"value":"'.$country.'"}}},{"term":{"city":{"value":"'.$city.'"}}},{"range":{"totalCapacity":{"gte":'.$guestCount.'}}},{"range":{"minStayDayCount":{"gte":'.$minStayCount.'}}}]}}}',true);
         $result = $this->search($query);
 
         return $result['hits']['hits'];

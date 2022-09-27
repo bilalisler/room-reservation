@@ -3,6 +3,8 @@ properties:
     type: "keyword"
   country:
     type: "keyword"
+  city:
+    type: "keyword"
   currency:
     type: "keyword"
   createdAt:

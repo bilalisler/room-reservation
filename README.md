@@ -6,9 +6,20 @@
 3. run migrations: `$ docker exec docker_service_php php bin/console doctrine:migrations:migrate`
 3. run migrations: `$ docker exec docker_service_php php bin/console messenger:consume -vv`
 4. run project `https://localhost:8088`
+
 ***
-database diagram: https://drawsql.app/teams/selfteam-1/diagrams/reservation-database
+
+## System Design Architecture
+![Alt text](./system_architecture.png?raw=true)
+
 ***
+
+## Database Diagram
+![Alt text](./database_diagram.png?raw=true)
+database diagram:
+ ``https://drawsql.app/teams/selfteam-1/diagrams/reservation-database``
+***
+
 ## Endpoints
 #### list reservations
 

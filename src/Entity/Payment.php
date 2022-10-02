@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Table(name="payment")
@@ -27,6 +28,8 @@ class Payment
      * @ORM\Column(type="string", length=16, nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="CardNumber parameter can not be empty", groups={"payment"})
      */
     private ?string $cardNumber = null;
 
@@ -34,6 +37,8 @@ class Payment
      * @ORM\Column(type="string", length=100, nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="CardOwner parameter can not be empty", groups={"payment"})
      */
     private ?string $cardOwner = null;
 
@@ -41,6 +46,9 @@ class Payment
      * @ORM\Column(type="smallint", length=3, nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="CardCvc parameter can not be empty", groups={"payment"})
+     * @Assert\Length(min=3, max=3, groups={"payment"})
      */
     private ?int $cardCvc = null;
 
@@ -48,6 +56,8 @@ class Payment
      * @ORM\Column(type="string", length=5, nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="CardExpiry parameter can not be empty", groups={"payment"})
      */
     private ?string $cardExpiry = null;
 

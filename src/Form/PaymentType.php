@@ -4,10 +4,10 @@ namespace App\Form;
 
 use App\Entity\Payment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PaymentType extends AbstractType
 {
@@ -15,24 +15,16 @@ class PaymentType extends AbstractType
     {
         $builder
             ->add('cardOwner',TextType::class,[
-                'constraints' => [
-                    new NotBlank(['message' => 'CardOwner parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('cardNumber',TextType::class,[
-                'constraints' => [
-                    new NotBlank(['message' => 'CardNumber parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('cardExpiry',TextType::class,[
-                'constraints' => [
-                    new NotBlank(['message' => 'CardExpiry parameter can not be empty'])
-                ]
+                'required' => true
             ])
-            ->add('cardCvc',TextType::class,[
-                'constraints' => [
-                    new NotBlank(['message' => 'CardCvc parameter can not be empty'])
-                ]
+            ->add('cardCvc',IntegerType::class,[
+                'required' => true
             ])
         ;
     }
@@ -40,7 +32,8 @@ class PaymentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Payment::class
+            'data_class' => Payment::class,
+            'validation_groups' => ['payment']
         ]);
     }
 }

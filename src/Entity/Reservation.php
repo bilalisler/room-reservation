@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Table(name="reservation")
@@ -27,6 +28,8 @@ class Reservation
      * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required payment", groups={"reservation"})
      */
     private ?Payment $payment = null;
 
@@ -35,6 +38,8 @@ class Reservation
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required user", groups={"reservation"})
      */
     private ?User $user = null;
 
@@ -43,6 +48,8 @@ class Reservation
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required rom", groups={"reservation"})
      */
     private ?Room $room = null;
 
@@ -50,6 +57,8 @@ class Reservation
      * @ORM\Column(type="date", nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required field", groups={"reservation"})
      */
     private ?\DateTimeInterface $startDate = null;
 
@@ -71,6 +80,9 @@ class Reservation
      * @ORM\Column(type="smallint", nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required guest count", groups={"reservation"})
+     * @Assert\GreaterThan(value="0", message="guest count must be greather than 0", groups={"reservation"})
      */
     private ?int $guestCount = null;
 
@@ -78,6 +90,9 @@ class Reservation
      * @ORM\Column(type="float", nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required price", groups={"reservation"})
+     * @Assert\GreaterThan(value="0", message="price must be greather than 0", groups={"reservation"})
      */
     private ?float $price = null;
 
@@ -85,6 +100,9 @@ class Reservation
      * @ORM\Column(type="float", nullable=false)
      *
      * @Groups({"list"})
+     *
+     * @Assert\NotBlank(message="required total", groups={"reservation"})
+     * @Assert\GreaterThan(value="0", message="total must be greather than 0", groups={"reservation"})
      */
     private ?float $total = null;
 

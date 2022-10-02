@@ -26,61 +26,40 @@ class ReservationCreateType extends AbstractType
                 'choice_label' => 'id',
                 'error_bubbling' => true,
                 'required' => true,
-                'invalid_message' => 'User was not found',
-                'constraints' => [
-                    new NotBlank(['message' => 'User parameter can not be empty'])
-                ]
+                'invalid_message' => 'User was not found'
             ])
             ->add('room', EntityType::class, [
                 'class' => Room::class,
                 'choice_label' => 'id',
                 'error_bubbling' => true,
                 'required' => true,
-                'invalid_message' => 'Room was not found',
-                'constraints' => [
-                    new NotBlank(['message' => 'Room parameter can not be empty'])
-                ]
+                'invalid_message' => 'Room was not found'
             ])
             ->add('startDate', DateType::class, [
                 'input' => 'string',
                 'input_format' => 'Y-m-d',
                 'widget' => 'single_text',
                 'error_bubbling' => true,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'StartDate parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('endDate', DateType::class, [
                 'input' => 'string',
                 'input_format' => 'Y-m-d',
                 'widget' => 'single_text',
                 'error_bubbling' => true,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'EndDate parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('guestCount', IntegerType::class, [
                 'error_bubbling' => true,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'GuestCount parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('price', NumberType::class, [
                 'error_bubbling' => true,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'Price parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('total', NumberType::class, [
                 'error_bubbling' => true,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'Total parameter can not be empty'])
-                ]
+                'required' => true
             ])
             ->add('createdAt',HiddenType::class, [
                 'empty_data' => new \DateTime('now')
@@ -112,7 +91,8 @@ class ReservationCreateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class
+            'data_class' => Reservation::class,
+            'validation_groups' => ['reservation','payment']
         ]);
     }
 }

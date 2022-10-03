@@ -24,6 +24,6 @@ class ExceptionListener
 
         $code = $exception->getCode() > 0 ? $exception->getCode() : 400;
 
-        $event->setResponse(new JsonResponse($error, $code));
+        $event->setResponse(new JsonResponse($error, 400));
     }
 }

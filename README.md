@@ -1,4 +1,6 @@
 # Room Reservation REST Api Doc
+A simple room reservation application using Symfony 6, Docker, Queue (Symfony Messenger), Elasticsearch. All environment requirings were presented on docker
+
 ***
 ### to run the REST Api follow the following steps;
 1. run project: `$ docker-compose up -d`

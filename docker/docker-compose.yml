@@ -1,15 +1,15 @@
-version: '3'
+version: '3.3'
 services:
   #PHP Service
-  docker_service_php:
+  room_reservation_php:
     build:
       context: .
       dockerfile: Dockerfile
     image: php81
-    container_name: docker_service_php
+    container_name: room_reservation_php
     tty: true
     environment:
-      SERVICE_NAME: docker_service_php
+      SERVICE_NAME: room_reservation_php
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
@@ -19,16 +19,16 @@ services:
       - docker_network_bridge
 
   #Composer Service, it is to create vendor folder for project
-  docker_service_composer:
+  room_reservation_composer:
     image: composer/composer:latest
     command: install
     volumes:
       - ../:/app
 
   #Nginx Service
-  docker_service_webserver:
+  room_reservation_webserver:
     image: nginx:alpine
-    container_name: docker_service_webserver
+    container_name: room_reservation_webserver
     tty: true
     ports:
       - "8087:80"
@@ -41,9 +41,9 @@ services:
       - docker_network_bridge
 
   #Redis Service
-  docker_service_redis:
+  room_reservation_redis:
     image: redis:alpine
-    container_name: docker_service_redis
+    container_name: room_reservation_redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
@@ -54,9 +54,9 @@ services:
       - docker_network_bridge
 
   #MySQL Service
-  docker_service_database:
+  room_reservation_database:
     image: mysql:5.7
-    container_name: docker_service_database
+    container_name: room_reservation_database
     tty: true
     ports:
       - "33078:3306"
@@ -72,13 +72,13 @@ services:
       - docker_network_bridge
 
   #Elasticsearch Service
-  docker_service_elasticsearch:
+  room_reservation_elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
-    container_name: docker_service_elasticsearch
+    container_name: room_reservation_elasticsearch
     environment:
-      - node.name=docker_service_elasticsearch
+      - node.name=room_reservation_elasticsearch
       - cluster.name=es-docker-cluster
-      - cluster.initial_master_nodes=docker_service_elasticsearch
+      - cluster.initial_master_nodes=room_reservation_elasticsearch
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -93,12 +93,12 @@ services:
       - docker_network_bridge
 
   #Kibana Service
-  docker_service_kibana:
+  room_reservation_kibana:
     image: docker.elastic.co/kibana/kibana:7.13.4
-    container_name: docker_service_kibana
+    container_name: room_reservation_kibana
     environment:
-      ELASTICSEARCH_URL: http://docker_service_elasticsearch:9200
-      ELASTICSEARCH_HOSTS: '["http://docker_service_elasticsearch:9200"]'
+      ELASTICSEARCH_URL: http://room_reservation_elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://room_reservation_elasticsearch:9200"]'
     ports:
       - "5601:5601"
     networks:
